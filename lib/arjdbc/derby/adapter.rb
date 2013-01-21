@@ -1,7 +1,11 @@
 require 'arjdbc/jdbc/missing_functionality_helper'
+require 'arjdbc/derby/explain_support'
 
 module ::ArJdbc
   module Derby
+
+    include ExplainSupport
+
     def self.column_selector
       [/derby/i, lambda {|cfg,col| col.extend(::ArJdbc::Derby::Column)}]
     end

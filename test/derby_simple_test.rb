@@ -8,6 +8,14 @@ require 'jdbc_common'
 
 class DerbySimpleTest < Test::Unit::TestCase
   include SimpleTestMethods
+  include ExplainSupportTestMethods if ar_version("3.1")
+
+  # We don't really support explain, but have implementation of
+  # explain because Rails stupidly calls explain even when
+  # supports_explain? returns false
+  def test_supports_explain
+    assert ! ActiveRecord::Base.connection.supports_explain?
+  end
 
   # Check that a table-less VALUES(xxx) query (like SELECT  works.
   def test_values
